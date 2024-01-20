@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package SOF204_SD1702_SP24_BL1.repository;
+package B2_4_Join2Bang.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +18,7 @@ public class DBConnect {
     public static final String PORT = "1433";
     public static final String DBNAME = "QuanLyKhachHang";
     public static final String USERNAME = "sa";
-    public static final String PASSWORD = "180988";
+    public static final String PASSWORD = "Password.1";
 
     /**
      * Get connection to MSSQL Server

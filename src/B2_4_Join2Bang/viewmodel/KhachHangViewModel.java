@@ -2,29 +2,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package SOF204_SD1702_SP24_BL1.entity;
+package B2_4_Join2Bang.viewmodel;
 
 /**
  *
  * @author ASUS
  */
-public class KhachHang {
-
+    //chứa các class
+    //thuộc tính của class là dữ liệu trả ra trên table
+public class KhachHangViewModel {
+    //maKH,tenKH,tuoi,gtinh,tenloaiKH
     private String maKH;
     private String tenKH;
     private int tuoi;
     private boolean gioiTinh;
-    private int loaiKHID;
+    private String tenLoaiKH;
 
-    public KhachHang() {
+    public KhachHangViewModel() {
     }
 
-    public KhachHang(String maKH, String tenKH, int tuoi, boolean gioiTinh, int loaiKHID) {
+    public KhachHangViewModel(String maKH, String tenKH, int tuoi, boolean gioiTinh, String tenLoaiKH) {
         this.maKH = maKH;
         this.tenKH = tenKH;
         this.tuoi = tuoi;
         this.gioiTinh = gioiTinh;
-        this.loaiKHID = loaiKHID;
+        this.tenLoaiKH = tenLoaiKH;
     }
 
     public String getMaKH() {
@@ -59,12 +61,14 @@ public class KhachHang {
         this.gioiTinh = gioiTinh;
     }
 
-    public int getLoaiKHID() {
-        return loaiKHID;
+    public String getTenLoaiKH() {
+        return tenLoaiKH;
     }
 
-    public void setLoaiKHID(int loaiKHID) {
-        this.loaiKHID = loaiKHID;
+    public void setTenLoaiKH(String tenLoaiKH) {
+        this.tenLoaiKH = tenLoaiKH;
     }
-
+    
+    
+    
 }

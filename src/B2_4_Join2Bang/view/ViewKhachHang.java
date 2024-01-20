@@ -2,13 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package SOF204_SD1702_SP24_BL1.view;
+package B2_4_Join2Bang.view;
 
-import SOF204_SD1702_SP24_BL1.entity.KhachHang;
-import SOF204_SD1702_SP24_BL1.service.KhachHangService;
-import SOF204_SD1702_SP24_BL1.viewmodel.KhachHangViewModel;
+import B2_4_Join2Bang.entity.KhachHang;
+import B2_4_Join2Bang.entity.LoaiKhachHang;
+import B2_4_Join2Bang.service.KhachHangService;
+import B2_4_Join2Bang.service.LoaiKhachHangService;
+import B2_4_Join2Bang.viewmodel.KhachHangViewModel;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,29 +19,49 @@ import javax.swing.table.DefaultTableModel;
  * @author ASUS
  */
 public class ViewKhachHang extends javax.swing.JFrame {
-private List<KhachHangViewModel>list = new ArrayList<>();
-private DefaultTableModel dtm = new DefaultTableModel();
-private KhachHangService service = new KhachHangService();
+    
+    private List<KhachHangViewModel> list = new ArrayList<>();
+    private DefaultTableModel dtm = new DefaultTableModel(); // custom table 
+    private KhachHangService service = new KhachHangService();
+    // CUSTOM TABLE => DEFAULT TABLE MODEL 
+    // CUSTOM COMBOBOX => DEFAULT COMBOBOX MODEL 
+    private DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+    private LoaiKhachHangService loaiKhachHangService = new LoaiKhachHangService();
+    private List<LoaiKhachHang> listLoaiKhachHang = new ArrayList<>();
+
     /**
      * Creates new form ViewKhachHang
      */
     public ViewKhachHang() {
         initComponents();
         this.setLocationRelativeTo(null);
+        // Load du lieu len table 
         list = service.getAll();
         dtm = (DefaultTableModel) tblKhachHang.getModel();
         showDataTable(list);
+        // load du lieu cbb
+        listLoaiKhachHang = loaiKhachHangService.getAll(); // Lay du lieu trong db
+        dcbm = (DefaultComboBoxModel) cbbLoaiKH.getModel();
+        showComboboxLoaiKhachHang();
+        
     }
-    public void showDataTable(List<KhachHangViewModel> listKH){
-        dtm.setRowCount(0);
+    
+    public void showComboboxLoaiKhachHang() {
+        dcbm.removeAllElements(); // Xoa toan bo du lieu trong cbb
+        for (LoaiKhachHang lkh : listLoaiKhachHang) {
+            dcbm.addElement(lkh.getID());
+        }
+    }
+    
+    public void showDataTable(List<KhachHangViewModel> listKH) {
+        dtm.setRowCount(0); // Xoa toan bo du lieu trong table 
         for (KhachHangViewModel khachHangViewModel : listKH) {
             dtm.addRow(new Object[]{
                 khachHangViewModel.getMaKH(),
                 khachHangViewModel.getTenKH(),
                 khachHangViewModel.getTuoi(),
                 khachHangViewModel.isGioiTinh(),
-                khachHangViewModel.getTenLoaiKH(),
-            });
+                khachHangViewModel.getTenLoaiKH(),});
         }
     }
 
@@ -97,6 +120,11 @@ private KhachHangService service = new KhachHangService();
         jLabel8.setText("Loại KH");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnRemove.setText("Remove");
 
@@ -116,12 +144,18 @@ private KhachHangService service = new KhachHangService();
                 {null, null, null, null, null}
             },
             new String [] {
-                "Mã KH", "Tên KH", "Tuổi", "Giỏi tính", "Loại KH"
+                "Mã KH", "Tên KH", "Tuổi", "Giới tính", "Loại KH"
             }
         ));
+        tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKhachHangMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblKhachHang);
 
         btgGioiTinh.add(rdoNam);
+        rdoNam.setSelected(true);
         rdoNam.setText("Nam");
 
         btgGioiTinh.add(rdoNu);
@@ -233,6 +267,31 @@ private KhachHangService service = new KhachHangService();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
+        // lay dong dc 
+    }//GEN-LAST:event_tblKhachHangMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddActionPerformed
+    public KhachHang getFormData() {
+        KhachHang kh = new KhachHang();
+        // B1: Lay toan bo du lieu tu form 
+        String ma = txtMaKH.getText();
+        String ten = txtTenKh.getText();
+        int tuoi = Integer.valueOf(txtTuoi.getText());
+        boolean gioiTinh = rdoNam.isSelected();
+        String loaiKhachHangID = cbbLoaiKH.getSelectedItem().toString();
+        // Neu de bai load len load ma (KHONG PHAI ID) => VIET THEO HAM GETONE DE LAY DOI TUONG 
+        // B2: Set du lieu vao doi tuong 
+        kh.setMaKH(ma);
+        kh.setTenKH(ten);
+        kh.setTuoi(tuoi);
+        kh.setGioiTinh(gioiTinh);
+        kh.setLoaiKHID(Integer.valueOf(loaiKhachHangID));
+        return kh;
+    }
 
     /**
      * @param args the command line arguments
